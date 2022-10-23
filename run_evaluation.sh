@@ -31,8 +31,6 @@ for split in dev test;do
             #     -m map_cut.20,100,1000 \
             #     -m recall.100,1000 \
             #     data/hc4/${lang}/${split}.qrels.v1-0.txt $FILE | cut -f3 | sed ':a; N; $!ba; s/\n/|/g'
-
-            echo '|----------|--------|-------|------|---------|---------|--------|'
         done
     done
 done
