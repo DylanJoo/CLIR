@@ -8,7 +8,7 @@ def cross_lingual_pairs(writer, datasets):
     (1) Monolingual (source lang to target lang) if only one language in datasets
     (2) Multilingual (source lang to mulitple kinds of target lang) if multiple languages specified.
     """
-    for i, example_en in enumerate(datasets['train']):
+    for i, example_en in enumerate(datasets['english']['train']):
 
         query_en = example_en['query']
 
@@ -32,7 +32,7 @@ def dualingual_query_pairs(writer, datasets):
     (1) Monolingual if only one language in datasets
     (2) Multilingual if multiple languages in datasets
     """
-    for i, example_en in enumerate(datasets['train']):
+    for i, example_en in enumerate(datasets['english']['train']):
 
         query_en = example_en['query']
 
@@ -61,15 +61,15 @@ if __name__ == '__main__':
 
     # multilingual marco
     assert 'english' not in args.lang, 'cannot be english'
+    datasets = {}
     for lang in args.lang + ['english']:
-        datasets[lang] = load_dataset("unicamp-dl/mmarco", lang, cache_dir='/tmp2/jhju/hf_datasets')
+        datasets[lang] = load_dataset("unicamp-dl/mmarco", lang, data_dir='/tmp2/huggingface/hf_datasets', cache_dir='/tmp2/jhju/cache')
 
     with open(args.output, 'w') as f:
-    if args.cross_lingual_relevant:
-        cross_lingual_relevant_pairs(f, datasets)
+        if args.clf:
+            cross_lingual_pairs(f, datasets)
 
-    if args.dual_lingual_ranking:
-        dual_query_ranking_pairs(f, datasets)
+        if args.dq:
+            dualingual_query_pairs(f, datasets)
 
-    f.close()
     print('Done!')

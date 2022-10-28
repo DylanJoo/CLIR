@@ -9,3 +9,5 @@ archived/
 *.swp
 */__pycache__/
 __pycache__/
+*.tsv
+
