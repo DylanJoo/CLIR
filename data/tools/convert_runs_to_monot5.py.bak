@@ -1,0 +1,44 @@
+import collections
+import re
+import argparse
+import json
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-q", "--queries", type=str, required=True,)
+parser.add_argument("-q_index", "--queries_index", type=str, required=False)
+parser.add_argument("-run", "--run", type=str, required=False,)
+parser.add_argument("--trec", action="store_true", default=False,)
+parser.add_argument("-corpus", "--corpus", type=str, required=True, )
+parser.add_argument("-d", "--doc_level", action="store_true", default=True,)
+parser.add_argument("-k", "--top_k", type=int, default=1000,)
+parser.add_argument("--output_text_pair", type=str, required=True,)
+parser.add_argument("--output_id_pair", type=str, required=True,)
+args = parser.parse_args()
+
+# Load requirements (corpus, queries, runs)
+runs, candidate_docs = load_run(args.run, args.top_k, args.trec)
+queries = load_queries(path=args.queries, path_index=args.queries_index)
+
+n_passage = 0
+
+with open(args.output_text_pair, 'w') as text_pair, \
+     open(args.output_id_pair, 'w') as id_pair:
+
+    for i, (qid, docids) in enumerate(runs.items()):
+        # Only create for tok_k candidates
+        for k, docid in enumerate(docids):
+            text_example = "Query: {} Document: {} Relevant:\n".format(
+                    queries[qid], 
+                    normalized(titles[docid], corpus[docid])
+            )
+            text_pair.write(text_example)
+
+            id_example = f"{qid}\t{docid}\t{(k+1)}\n"
+            id_pair.write(id_example)
+            n_passage += 1
+        
+        if i % 100 == 0:
+            print(f'Loading queries ...{i}')
+            print(f'Creating T5-qp-ranking-pairs...{n_passage}')
+
+print("DONE!")

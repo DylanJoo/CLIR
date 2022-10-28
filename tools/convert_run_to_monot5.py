@@ -12,9 +12,9 @@ parser.add_argument("--queries_source", type=str, required=True,)
 parser.add_argument("--corpus", type=str, required=True,)
 parser.add_argument("--output_text_pair", type=str, required=True)
 parser.add_argument("--output_id_pair", type=str, required=True)
-parser.add_argument('--dual-lingual-ranking', action='store_true', default=False, help='query w/ multiple langs')
 parser.add_argument("--queries_original", type=str, required=False, help='Only use for dual-query ranking')
-parser.add_argument('--cross-lingual-relevant', action='store_true', default=False, help='query w/ diff lang of psg.')
+parser.add_argument('--dq', action='store_true', default=False, help='query w/ multiple langs')
+parser.add_argument('--clr', action='store_true', default=False, help='query w/ diff lang of psg.')
 args = parser.parse_args()
 # parser.add_argument('--lang', action='append')
 
@@ -22,7 +22,7 @@ runs = load_runs(path=args.run)
 queries = load_queries(path=args.queries)
 queries = post_process_clir_queries(queries=queries, source=args.queries_source)
 
-if args.dual_lingual_ranking:
+if args.dq:
     queries_original = load_queries(path=args.queries_original)
     queries_original = post_process_clir_queries(queries_original, 'original')
 
@@ -39,7 +39,7 @@ with open(args.output_text_pair, 'w') as text_pair, \
     for i, (qid, docid_ranklist) in enumerate(runs.items()):
         for k, docid in enumerate(docid_ranklist):
 
-            if args.dual_lingual_ranking:
+            if args.dq:
                 text_pair.write(
                         f"Query: {queries_original[qid]} Query Translation: {queries[qid]} Document: {collections[docid]} Relevant:\n"
                 ) 
