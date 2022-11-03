@@ -2,10 +2,7 @@ import torch
 from dataclasses import dataclass, field
 from typing import Optional, Union, List, Dict, Tuple, Any
 from transformers.tokenization_utils_base import PreTrainedTokenizerBase
-from transformers.tokenization_utils_base import (
-        PaddingStrategy,
-        PreTrainedTokenizerBase
-)
+from transformers.tokenization_utils_base import PaddingStrategy, PreTrainedTokenizerBase
 
 
 @dataclass

@@ -8,7 +8,8 @@ for split in test dev;do
               --collection /tmp2/trec/hc4/${lang}/hc4_docs_tc.jsonl \
               --topk 1000 \
               --output_trec runs/${lang}/hc4.${lang}.${split}.${src}.monomT5L-dq.trec \
-              --model_name_or_path checkpoints/mt5-large-mmarco-v2-temp \
+              --output_trec runs/cast20.canard.train.rewrite.rerank.top1000.trec \
+              --model_name_or_path checkpoints/mt5-large-mmarco-v2-dq \
               --batch_size 4 \
               --max_length 512 \
               --gpu 1 \
