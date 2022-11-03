@@ -4,10 +4,7 @@ import random
 from datasets import load_dataset
 
 def cross_lingual_pairs(writer, datasets):
-    """ Input the query and passage with different languages
-    (1) Monolingual (source lang to target lang) if only one language in datasets
-    (2) Multilingual (source lang to mulitple kinds of target lang) if multiple languages specified.
-    """
+    """ Input the query and passage with different languages """
     for i, example_en in enumerate(datasets['english']['train']):
 
         query_en = example_en['query']
@@ -28,10 +25,7 @@ def cross_lingual_pairs(writer, datasets):
 
 
 def dualingual_query_pairs(writer, datasets):
-    """ Input the two queries (source langugae and target language) as new query source. 
-    (1) Monolingual if only one language in datasets
-    (2) Multilingual if multiple languages in datasets
-    """
+    """ Input the two queries (source langugae and target language) as new query source.  """
     for i, example_en in enumerate(datasets['english']['train']):
 
         query_en = example_en['query']
@@ -63,6 +57,7 @@ if __name__ == '__main__':
     assert 'english' not in args.lang, 'cannot be english'
     datasets = {}
     for lang in args.lang + ['english']:
+        # set the data directories abd cahce directoroies with available disk space.
         datasets[lang] = load_dataset("unicamp-dl/mmarco", lang, data_dir='/tmp2/huggingface/hf_datasets', cache_dir='/tmp2/jhju/cache')
 
     with open(args.output, 'w') as f:

@@ -13,13 +13,23 @@ def normalized(x):
     x = re.sub("\s\s+" , " ", x)
     return x
 
+def load_topics(path):
+    data_dict = {}
+    with open(path, 'r') as f:
+        for line in f:
+            data = json.loads(line.strip())
+            topic_turn_id = data.pop('id')
+            data_dict[topic_turn_id] = data
+    return data_dict
+
 def load_multilingual_topics(path, lang='eng', src='original'):
     data_dict = {}
     with open(path, 'r') as f:
         for line in f:
             data = json.loads(line.strip())
+            topic_turn_id = data.pop('id')
+
             if data['lang'] == lang and data['src'] == src:
-                topic_turn_id = data.pop('id')
                 data_dict[topic_turn_id] = data
     return data_dict
 
@@ -68,33 +78,6 @@ def load_collections(path=None, dir=None, candidate_set=None):
 
     print("DONE")
     return collection_dict
-
-# def filter_rel_collections(corpus, runs, output='rel_collections.jsonl'):
-#     collection_dict = {}
-#     rel_doc_set = set()
-#     for i in range(len(runs)):
-#         for k, rank_list in runs[i].items():
-#             rel_doc_set.update([docid for (docid, _) in rank_list])
-#
-#     fout = open(output, 'w')
-#
-#     while len(rel_doc_set) > 0:
-#         docid = rel_doc_set.pop()
-#         doctext = corpus[docid]
-#
-#         if output is not None:
-#             fout.write(
-#                     json.dumps({'id': docid, 'contents': doctext.replace("\n", "")})+'\n'
-#             )
-#         else:
-#             collection_dict[docid] = doctext.replace("\n", "")
-#
-#         if len(rel_doc_set) % 10000 == 1:
-#             print(f'{len(rel_doc_set)} passages remain unfound.')
-#
-#     print("dONE")
-#     if output is None:
-#         return collection_dict
 
 def doc_pool_random_sampling(pool, n):
     try:

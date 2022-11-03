@@ -7,13 +7,13 @@ for split in dev test;do
         mkdir -p runs/$lang
         for src in sockeye;do
           python3 tools/sparse_retrieval.py \
-              -k 1000 -k1 0.82 -b 0.68 \
-              -index /tmp2/trec/hc4/indexes/hc4_${lang}_tc_jsonl \
-              -query data/hc4/${split}.jsonl \
-              -qval title+desc \
-              -lang $lang \
-              -src ${src} \
-              -output runs/${lang}/hc4.${lang}.${split}.${src}.td.spr.top1000.trec
+              --k 1000 -k1 0.82 -b 0.68 \
+              --index /tmp2/trec/hc4/indexes/hc4_${lang}_tc_jsonl \
+              --query data/hc4/${split}.jsonl \
+              --qvalue title+desc \
+              --lang $lang \
+              --src ${src} \
+              --output runs/${lang}/hc4.${lang}.${split}.${src}.td.spr.top1000.trec
         done
     done
 done

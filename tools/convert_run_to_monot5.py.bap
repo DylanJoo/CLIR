@@ -5,17 +5,22 @@ import argparse
 import json
 from utils import load_runs, load_queries, load_collections, post_process_clir_queries
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--run", type=str, required=False,)
-parser.add_argument("--queries", type=str, required=True,)
-parser.add_argument("--queries_source", type=str, required=True,)
-parser.add_argument("--corpus", type=str, required=True,)
-parser.add_argument("--output_text_pair", type=str, required=True)
-parser.add_argument("--output_id_pair", type=str, required=True)
-parser.add_argument("--queries_original", type=str, required=False, help='Only use for dual-query ranking')
-parser.add_argument('--dq', action='store_true', default=False, help='query w/ multiple langs')
-parser.add_argument('--clr', action='store_true', default=False, help='query w/ diff lang of psg.')
-args = parser.parse_args()
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--run", type=str, required=False,)
+    parser.add_argument("--queries", type=str, required=True,)
+    parser.add_argument("--queries_source", type=str, required=True,)
+    parser.add_argument("--corpus", type=str, required=True,)
+    parser.add_argument("--output_text_pair", type=str, required=True)
+    parser.add_argument("--output_id_pair", type=str, required=True)
+    parser.add_argument("--queries_original", type=str, \
+            required=False, help='Only use for dual-query ranking')
+    parser.add_argument('--dq', action='store_true', \
+            default=False, help='query w/ multiple langs')
+    parser.add_argument('--clr', action='store_true', \
+            default=False, help='query w/ diff lang of psg.')
+    args = parser.parse_args()
 # parser.add_argument('--lang', action='append')
 
 runs = load_runs(path=args.run)

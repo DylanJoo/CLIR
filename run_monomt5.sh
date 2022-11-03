@@ -1,5 +1,4 @@
 # baseline reranking model unicamp-dl/mt5-base-mmarco-v2
-export
 for split in dev test;do
     for lang in fas rus zho;do
         for src in human;do
