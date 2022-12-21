@@ -13,6 +13,20 @@ def normalized(x):
     x = re.sub("\s\s+" , " ", x)
     return x
 
+def load_scores(path):
+    data_list = []
+    with open(path, 'r') as f:
+        for line in f:
+            data = json.loads(line.strip())
+            true_logit = data['score'][0]
+            false_logit = data['score'][1]
+            true_prob = np.exp(true_logit)
+            false_prob = np.exp(false_logit)
+            summation = true_prob + false_prob
+
+            data_list.append( (true_prob/summation, false_prob/summation) )
+    return data_list
+
 def load_topics(path):
     data_dict = {}
     with open(path, 'r') as f:

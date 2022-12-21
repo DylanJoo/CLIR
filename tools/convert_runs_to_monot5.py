@@ -25,24 +25,23 @@ if __name__ == '__main__':
     parser.add_argument("--lang", type=str, required=True,)
     parser.add_argument("--source", type=str, required=True,)
     parser.add_argument("--dq", action='store_true', default=False)
-    parser.add_argument("--clf", action='store_true', default=False)
+    parser.add_argument("--clr", action='store_true', default=False)
     args = parser.parse_args()
 
     # load triplet
     queries = load_multilingual_topics(args.topic, lang=args.lang, src=args.source)
-    queries_en = load_multilingual_topics(args.topic, lang='english', src='original')
-    passages = load_collections(dir=args.collection)
+    passages = load_collections(path=args.collection)
     runs = load_runs(args.run)
 
     # prepare dataset
     data = collections.defaultdict(list)
     for qid in runs:
-        if "+" in args.value:
+        if "+" in args.qvalue:
             query_text = " ".join([queries[v]] in args.qvalue.split("+"))
-            query_en_text = " ".join([queries_en[v]] in args.qvalue.split("+"))
+            query_en_text = " ".join([queries[f"orig_{v}"]] in args.qvalue.split("+"))
         else:
             query_text = queries[qid][args.qvalue]
-            query_en_text = queries_en[qid][args.qvalue]
+            query_en_text = queries[qid][f"orig_{args.qvalue}"]
         for pid in runs[qid]:
             data['qid'].append(qid)
             data['pid'].append(pid)
@@ -57,7 +56,7 @@ if __name__ == '__main__':
             return_text=True, 
             istrain=False,
             dq=args.dq,
-            clf=args.clf
+            clr=args.clr
     )
     dataloader = DataLoader(
             dataset,
@@ -67,7 +66,7 @@ if __name__ == '__main__':
     )
 
     # output examples (to be inferenced)
-    fout = open(args.output_text, 'w')
+    fout = open(args.output, 'w')
     for b, batch in enumerate(dataloader):
         batch_inputs, batch_ids = batch
 

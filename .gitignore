@@ -10,4 +10,6 @@ archived/
 */__pycache__/
 __pycache__/
 *.tsv
+dual-lingual/scores/*
+cross-lingual-finetuning/scores/*
 

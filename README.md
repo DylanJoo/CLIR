@@ -35,5 +35,11 @@ bash run_spr.sh
 4. Re-ranking
 
 5. Fine-tuning point-wise ranking models for multi-lingual
+
 - Fine-tuning with "dual-ligual queries" (abbreviated as dq)
 - Fine-tuning with "cross-ligual relevance fine-tuning" (abbreviated as clf)
+
+6. Convert the logits of ('true' and 'false') into probabilties.
+```
+bash run_rank_from_scores.sh
+```

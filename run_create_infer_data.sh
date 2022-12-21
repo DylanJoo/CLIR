@@ -1,4 +1,6 @@
 # dq
+mkdir -p data/hc4/infer/
+
 for split in dev test;do
     for lang in fas rus zho;do
         for src in human;do
@@ -7,7 +9,7 @@ for split in dev test;do
                 --topic data/hc4/${split}.jsonl \
                 --collection /tmp2/trec/hc4/${lang}/hc4_docs_tc.jsonl \
                 --qvalue desc \
-                --output data/hc4/infer/${lang}/hc4.${lang}.${split}.${src}.monomT5.dq.infer.tsv \
+                --output data/hc4/infer/hc4.${lang}.${split}.${src}.monomT5.dq.infer.tsv \
                 --batch_size 16 \
                 --lang ${lang} \
                 --source ${src} \
@@ -16,7 +18,7 @@ for split in dev test;do
     done
 done
 
-# clf
+# clr
 for split in dev test;do
     for lang in fas rus zho;do
         for src in human;do
@@ -25,11 +27,11 @@ for split in dev test;do
                 --topic data/hc4/${split}.jsonl \
                 --collection /tmp2/trec/hc4/${lang}/hc4_docs_tc.jsonl \
                 --qvalue desc \
-                --output data/hc4/infer/${lang}/hc4.${lang}.${split}.${src}.monomT5.clf.infer.tsv \
+                --output data/hc4/infer/hc4.${lang}.${split}.${src}.monomT5.clr.infer.tsv \
                 --batch_size 16 \
                 --lang ${lang} \
                 --source ${src} \
-                --clf 
+                --clr 
         done
     done
 done

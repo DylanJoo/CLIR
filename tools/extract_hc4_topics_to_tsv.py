@@ -22,7 +22,7 @@ def main(args):
         for line in f:
 
             data = json.loads(line.strip())
-            topic_id = data['topic_id']
+            topic_id = str(data['topic_id'])
             #####
             origin = data['topics'].pop(
                     [i for i, d in enumerate(data['topics']) if d['source'] == 'original'][0]
